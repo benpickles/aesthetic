@@ -1,3 +1,4 @@
+require 'aesthetic/breakpoint'
 require 'aesthetic/example'
 require 'capybara/poltergeist'
 
@@ -11,7 +12,12 @@ module Aesthetic
   class Standalone
     def initialize(&body)
       @body = body
+      @breakpoints = []
       @examples = []
+    end
+
+    def breakpoint(name, width)
+      breakpoints << Breakpoint.new(name, width)
     end
 
     def example(name = nil, &block)
@@ -20,7 +26,17 @@ module Aesthetic
 
     def run
       instance_eval &body
-      examples.each(&:run)
+
+      examples.each do |example|
+        if breakpoints.any?
+          breakpoints.each do |breakpoint|
+            example.breakpoint = breakpoint
+            example.run
+          end
+        else
+          example.run
+        end
+      end
     end
 
     def screenshot(name, url)
@@ -31,6 +47,6 @@ module Aesthetic
     end
 
     private
-      attr_reader :body, :examples
+      attr_reader :body, :breakpoints, :examples
   end
 end
