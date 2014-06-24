@@ -26,6 +26,7 @@ module Aesthetic
     def screenshot(name)
       image_name = [name, breakpoint.name].compact.join('-') << '.png'
       path = Aesthetic.path.join(image_name)
+      path = Aesthetic.current.join(image_name) if path.exist?
 
       page.save_screenshot(path, full: true)
     end
