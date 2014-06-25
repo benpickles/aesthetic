@@ -6,7 +6,11 @@ module Aesthetic
       tmp.join('current')
     end
 
-    def path
+    def diff
+      tmp.join('diffs')
+    end
+
+    def good
       Pathname.new('aesthetic')
     end
 
