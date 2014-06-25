@@ -13,6 +13,8 @@ module Aesthetic
         usage
       elsif command == 'diff'
         diff
+      elsif command == 'promote'
+        promote
       elsif File.exist?(command)
         require 'aesthetic/standalone'
         path = File.expand_path(command, Dir.pwd)
@@ -34,12 +36,20 @@ module Aesthetic
         currents.map(&Diff).each(&:run)
       end
 
+      def promote
+        currents.each do |path|
+          good_path = Aesthetic.good.join(path.basename)
+          path.rename(good_path)
+        end
+      end
+
       def usage
         stdout.puts <<-USAGE
 Usage:
   aesthetic FILENAME - Execute an Aesthetic script.
   aesthetic diff     - Diff "current" screenshots against their "known good"
                        counterparts.
+  aesthetic promote  - Promote "current" screenshots to "known good".
 USAGE
       end
   end
