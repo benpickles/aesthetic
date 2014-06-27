@@ -1,3 +1,4 @@
+require 'aesthetic/version'
 require 'pathname'
 
 module Aesthetic
