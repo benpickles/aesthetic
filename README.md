@@ -4,6 +4,7 @@ Aesthetic is a tool to help you regression-test your site's aesthetic and ensure
 
 ## Usage
 
+```ruby
 aesthetic do
   # A screenshot is taken for each breakpoint.
   breakpoint :tablet, 768
@@ -21,3 +22,4 @@ aesthetic do
     screenshot :my_account
   end
 end
+```
