@@ -16,9 +16,7 @@ module Aesthetic
       elsif command == 'promote'
         promote
       elsif File.exist?(command)
-        require 'aesthetic/standalone'
-        path = File.expand_path(command, Dir.pwd)
-        load path
+        standalone
       else
         usage
       end
@@ -41,6 +39,12 @@ module Aesthetic
           good_path = Aesthetic.good.join(path.basename)
           path.rename(good_path)
         end
+      end
+
+      def standalone
+        require 'aesthetic/standalone'
+        path = File.expand_path(command, Dir.pwd)
+        load path
       end
 
       def usage
