@@ -1,10 +1,6 @@
 require 'aesthetic/breakpoint'
 require 'aesthetic/example'
 
-def aesthetic(&block)
-  Aesthetic::Standalone.new(&block).run
-end
-
 module Aesthetic
   class Standalone
     def initialize(&body)

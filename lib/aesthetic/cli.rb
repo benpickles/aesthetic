@@ -1,5 +1,6 @@
 require 'aesthetic'
 require 'aesthetic/diff'
+require 'aesthetic/runner'
 
 module Aesthetic
   class CLI
@@ -48,9 +49,8 @@ module Aesthetic
 
       def standalone
         empty_tmp
-        require 'aesthetic/standalone'
         path = File.expand_path(command, Dir.pwd)
-        load path
+        Runner.new(path).run
       end
 
       def usage
