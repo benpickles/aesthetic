@@ -1,5 +1,3 @@
-require 'open3'
-
 module Aesthetic
   class Image
     attr_reader :path
@@ -18,8 +16,8 @@ module Aesthetic
 
     private
       def dimensions
-        @dimensions ||= Open3.popen3('identify', '-format', '%w %h', path.to_s) { |_, stdout, _, _|
-          stdout.read.split(' ').map(&:to_i)
+        @dimensions ||= IO.popen(['identify', '-format', '%w %h', path.to_s]) { |io|
+          io.read.split(' ').map(&:to_i)
         }
       end
   end
