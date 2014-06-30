@@ -7,6 +7,7 @@ module Aesthetic
       @body = body
       @breakpoints = []
       @examples = []
+      @_host = nil
     end
 
     def breakpoint(name, width)
@@ -17,6 +18,10 @@ module Aesthetic
       examples << Example.new(name, &block)
     end
 
+    def host(value)
+      @_host = value
+    end
+
     def run
       instance_eval &body
 
@@ -24,6 +29,7 @@ module Aesthetic
         if breakpoints.any?
           breakpoints.each do |breakpoint|
             example.breakpoint = breakpoint
+            example.host = _host if _host
             example.run
           end
         else
@@ -40,6 +46,6 @@ module Aesthetic
     end
 
     private
-      attr_reader :body, :breakpoints, :examples
+      attr_reader :_host, :body, :breakpoints, :examples
   end
 end

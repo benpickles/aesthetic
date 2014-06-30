@@ -1,23 +1,28 @@
 require 'aesthetic'
 require 'aesthetic/breakpoint'
-require 'capybara/dsl'
+require 'capybara'
 require 'capybara/poltergeist'
 
 module Aesthetic
   class Example
     include Capybara::DSL
 
-    attr_reader :body, :breakpoint, :name
+    attr_reader :body, :breakpoint, :host, :name
 
     def initialize(name = nil, &body)
       @name = name
       @body = body
       @breakpoint = Breakpoint.new(nil, nil)
+      @host = nil
     end
 
     def breakpoint=(bp)
       @breakpoint = bp
       page.driver.resize(bp.width, 768)
+    end
+
+    def host=(value)
+      Capybara.app_host = value
     end
 
     def page
