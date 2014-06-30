@@ -34,6 +34,11 @@ module Aesthetic
         currents.map(&Diff).each(&:run)
       end
 
+      def empty_tmp
+        return unless Aesthetic.tmp.exist?
+        Aesthetic.tmp.children.each(&:rmtree)
+      end
+
       def promote
         currents.each do |path|
           good_path = Aesthetic.good.join(path.basename)
@@ -42,6 +47,7 @@ module Aesthetic
       end
 
       def standalone
+        empty_tmp
         require 'aesthetic/standalone'
         path = File.expand_path(command, Dir.pwd)
         load path
