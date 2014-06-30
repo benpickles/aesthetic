@@ -1,6 +1,7 @@
 require 'aesthetic'
 require 'aesthetic/breakpoint'
 require 'capybara/dsl'
+require 'capybara/poltergeist'
 
 module Aesthetic
   class Example
@@ -17,6 +18,10 @@ module Aesthetic
     def breakpoint=(bp)
       @breakpoint = bp
       page.driver.resize(bp.width, 768)
+    end
+
+    def page
+      @page ||= Capybara::Session.new(:poltergeist)
     end
 
     def run

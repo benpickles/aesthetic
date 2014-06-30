@@ -1,8 +1,5 @@
 require 'aesthetic/breakpoint'
 require 'aesthetic/example'
-require 'capybara/poltergeist'
-
-Capybara.current_driver = :poltergeist
 
 def aesthetic(&block)
   Aesthetic::Standalone.new(&block).run
