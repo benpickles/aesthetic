@@ -1,5 +1,6 @@
 require 'aesthetic'
 require 'aesthetic/breakpoint'
+require 'aesthetic/example_body_recorder'
 require 'capybara'
 require 'capybara/poltergeist'
 
@@ -21,6 +22,10 @@ module Aesthetic
       page.driver.resize(bp.width, 768)
     end
 
+    def has_screenshot?(name)
+      screenshots.include?(name)
+    end
+
     def host=(value)
       Capybara.app_host = value
     end
@@ -40,5 +45,14 @@ module Aesthetic
 
       page.save_screenshot(path, full: true)
     end
+
+    private
+      def recording
+        @recording ||= ExampleBodyRecorder.new(&body)
+      end
+
+      def screenshots
+        recording.screenshots
+      end
   end
 end
