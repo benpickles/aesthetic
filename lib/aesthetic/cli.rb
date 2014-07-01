@@ -7,24 +7,19 @@ module Aesthetic
     def initialize(stdout, argv)
       @stdout = stdout
       @command = argv.first
+      @argv = argv
     end
 
     def start
-      if command.nil?
-        usage
-      elsif command == 'diff'
-        diff
-      elsif command == 'promote'
-        promote
-      elsif File.exist?(command)
-        standalone
-      else
-        usage
+      case command
+      when 'diff'    then diff
+      when 'promote' then promote
+      else standalone
       end
     end
 
     private
-      attr_reader :command, :stdout
+      attr_reader :argv, :command, :stdout
 
       def currents
         current = Aesthetic.current
@@ -49,8 +44,7 @@ module Aesthetic
 
       def standalone
         empty_tmp
-        path = File.expand_path(command, Dir.pwd)
-        Runner.new(path).run
+        Runner.new(argv).run
       end
 
       def usage

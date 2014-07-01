@@ -2,13 +2,15 @@ require 'aesthetic/standalone'
 
 module Aesthetic
   class Runner
-    def initialize(path)
-      @path = path
-      @standalone = nil
+    Aestheticfile = 'Aestheticfile'
+
+    def initialize(args)
+      @args = args
+      @standalone = Standalone.new
     end
 
     def aesthetic(&block)
-      @standalone = Standalone.new(&block)
+      standalone.body(&block)
     end
 
     def run
@@ -17,10 +19,18 @@ module Aesthetic
     end
 
     private
-      attr_reader :path, :standalone
+      attr_reader :args, :standalone
 
       def contents
-        File.read(path)
+        if File.exist?(path)
+          File.read(path)
+        else
+          ''
+        end
+      end
+
+      def path
+        @path ||= args.first || Aestheticfile
       end
   end
 end

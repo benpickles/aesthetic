@@ -3,11 +3,14 @@ require 'aesthetic/example'
 
 module Aesthetic
   class Standalone
-    def initialize(&body)
-      @body = body
+    def initialize
       @breakpoints = []
       @examples = []
       @_host = nil
+    end
+
+    def body(&block)
+      instance_eval &block
     end
 
     def breakpoint(name, width)
@@ -23,8 +26,6 @@ module Aesthetic
     end
 
     def run
-      instance_eval &body
-
       examples.each do |example|
         if breakpoints.any?
           breakpoints.each do |breakpoint|
@@ -46,6 +47,6 @@ module Aesthetic
     end
 
     private
-      attr_reader :_host, :body, :breakpoints, :examples
+      attr_reader :_host, :breakpoints, :examples
   end
 end
