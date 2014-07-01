@@ -2,4 +2,4 @@
 
 require 'aesthetic/cli'
 
-Aesthetic::CLI.new($stdout, $stderr, ARGV).start
+Aesthetic::CLI.new($stdout, $stderr, ARGV.dup).start

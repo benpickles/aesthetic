@@ -1,4 +1,5 @@
 require 'aesthetic/standalone'
+require 'optparse'
 
 module Aesthetic
   class Runner
@@ -8,7 +9,7 @@ module Aesthetic
       @stdout = stdout
       @stderr = stderr
       @args = args
-      @standalone = Standalone.new
+      @standalone = Standalone.new(extract_options!)
     end
 
     def aesthetic(&block)
@@ -30,6 +31,18 @@ module Aesthetic
           stderr.puts "#{path} not found."
           ''
         end
+      end
+
+      def extract_options!
+        options = {}
+
+        OptionParser.new { |option|
+          option.on '-s [OPTIONAL]', '--screenshot [OPTIONAL]' do |value|
+            options[:screenshot] = value
+          end
+        }.parse!(args)
+
+        options
       end
 
       def path

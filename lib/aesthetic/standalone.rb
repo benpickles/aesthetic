@@ -3,7 +3,8 @@ require 'aesthetic/example'
 
 module Aesthetic
   class Standalone
-    def initialize
+    def initialize(opts)
+      @opts = opts
       @breakpoints = []
       @examples = []
       @_host = nil
@@ -26,7 +27,7 @@ module Aesthetic
     end
 
     def run
-      examples.each do |example|
+      filtered_examples.each do |example|
         if breakpoints.any?
           breakpoints.each do |breakpoint|
             example.breakpoint = breakpoint
@@ -47,6 +48,18 @@ module Aesthetic
     end
 
     private
-      attr_reader :_host, :breakpoints, :examples
+      attr_reader :_host, :breakpoints, :examples, :opts
+
+      def filtered_examples
+        screenshot_filter = opts[:screenshot]
+
+        if screenshot_filter
+          examples.select { |example|
+            example.has_screenshot?(screenshot_filter)
+          }
+        else
+          examples
+        end
+      end
   end
 end
