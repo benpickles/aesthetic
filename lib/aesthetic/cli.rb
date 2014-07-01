@@ -4,8 +4,9 @@ require 'aesthetic/runner'
 
 module Aesthetic
   class CLI
-    def initialize(stdout, argv)
+    def initialize(stdout, stderr, argv)
       @stdout = stdout
+      @stderr = stderr
       @command = argv.first
       @argv = argv
     end
@@ -19,7 +20,7 @@ module Aesthetic
     end
 
     private
-      attr_reader :argv, :command, :stdout
+      attr_reader :argv, :command, :stderr, :stdout
 
       def currents
         current = Aesthetic.current
@@ -44,7 +45,7 @@ module Aesthetic
 
       def standalone
         empty_tmp
-        Runner.new(argv).run
+        Runner.new(stdout, stderr, argv).run
       end
 
       def usage

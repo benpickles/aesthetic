@@ -4,7 +4,9 @@ module Aesthetic
   class Runner
     Aestheticfile = 'Aestheticfile'
 
-    def initialize(args)
+    def initialize(stdout, stderr, args)
+      @stdout = stdout
+      @stderr = stderr
       @args = args
       @standalone = Standalone.new
     end
@@ -19,12 +21,13 @@ module Aesthetic
     end
 
     private
-      attr_reader :args, :standalone
+      attr_reader :args, :standalone, :stderr, :stdout
 
       def contents
         if File.exist?(path)
           File.read(path)
         else
+          stderr.puts "#{path} not found."
           ''
         end
       end
