@@ -1,26 +1,34 @@
 require 'aesthetic'
 require 'aesthetic/diff'
 require 'aesthetic/runner'
+require 'optparse'
 
 module Aesthetic
   class CLI
     def initialize(stdout, stderr, argv)
       @stdout = stdout
       @stderr = stderr
-      @command = argv.first
       @argv = argv
     end
 
     def start
+      command = argv.first
+
+      extract_options! unless command == 'run'
+
       case command
-      when 'diff'    then diff
-      when 'promote' then promote
-      else runner
+      when 'diff'     then diff
+      when 'promote'  then promote
+      when 'run'
+        argv.shift
+        runner
+      else
+        runner
       end
     end
 
     private
-      attr_reader :argv, :command, :stderr, :stdout
+      attr_reader :argv, :stderr, :stdout
 
       def currents
         current = Aesthetic.current
@@ -36,6 +44,26 @@ module Aesthetic
         Aesthetic.tmp.children.each(&:rmtree)
       end
 
+      def extract_options!
+        OptionParser.new { |opts|
+          opts.banner = 'Usage: aesthetic [options] [command]'
+          opts.separator ''
+          opts.separator '  Commands:'
+          opts.separator '    diff    - Diff "current" screenshots against their "known good" counterparts.'
+          opts.separator '    promote - Move "current" screenshots to the "known good" directory.'
+          opts.separator '    run     - Execute an Aesthetic script (the default command).'
+          opts.separator ''
+          opts.separator '  Options:'
+
+          opts.on_tail '-h', '--help', 'Show this helpful message.' do
+            puts opts
+            exit
+          end
+        }.parse(argv)
+      rescue OptionParser::InvalidOption
+        # Allow unknown options to reach sub-commands.
+      end
+
       def promote
         currents.each do |path|
           good_path = Aesthetic.good.join(path.basename)
@@ -46,16 +74,6 @@ module Aesthetic
       def runner
         empty_tmp
         Runner.new(stdout, stderr, argv).run
-      end
-
-      def usage
-        stdout.puts <<-USAGE
-Usage:
-  aesthetic FILENAME - Execute an Aesthetic script.
-  aesthetic diff     - Diff "current" screenshots against their "known good"
-                       counterparts.
-  aesthetic promote  - Promote "current" screenshots to "known good".
-USAGE
       end
   end
 end
