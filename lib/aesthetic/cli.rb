@@ -15,7 +15,7 @@ module Aesthetic
       case command
       when 'diff'    then diff
       when 'promote' then promote
-      else standalone
+      else runner
       end
     end
 
@@ -43,7 +43,7 @@ module Aesthetic
         end
       end
 
-      def standalone
+      def runner
         empty_tmp
         Runner.new(stdout, stderr, argv).run
       end
