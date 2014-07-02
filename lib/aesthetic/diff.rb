@@ -1,5 +1,6 @@
 require 'aesthetic'
 require 'aesthetic/image'
+require 'aesthetic/notifications'
 require 'fileutils'
 
 module Aesthetic
@@ -13,6 +14,8 @@ module Aesthetic
     end
 
     def run
+      Notifications.emit('diff')
+
       FileUtils.mkdir_p(normalised_current.dirname)
       FileUtils.mkdir_p(normalised_good.dirname)
       FileUtils.mkdir_p(diff.dirname)

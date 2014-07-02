@@ -1,5 +1,7 @@
 require 'aesthetic'
 require 'aesthetic/diff'
+require 'aesthetic/progress_formatter'
+require 'aesthetic/notifications'
 require 'aesthetic/runner'
 require 'optparse'
 
@@ -25,6 +27,8 @@ module Aesthetic
       else
         runner
       end
+
+      Notifications.emit('finish')
     end
 
     private
@@ -36,6 +40,7 @@ module Aesthetic
       end
 
       def diff
+        subscribe
         currents.map(&Diff).each(&:run)
       end
 
@@ -65,7 +70,10 @@ module Aesthetic
       end
 
       def promote
+        subscribe
+
         currents.each do |path|
+          Notifications.emit('promote')
           good_path = Aesthetic.good.join(path.basename)
           path.rename(good_path)
         end
@@ -73,7 +81,13 @@ module Aesthetic
 
       def runner
         empty_tmp
+        subscribe
         Runner.new(stdout, stderr, argv).run
+      end
+
+      def subscribe
+        formatter = ProgressFormatter.new(stdout)
+        Notifications.subscribe(formatter)
       end
   end
 end

@@ -1,6 +1,7 @@
 require 'aesthetic'
 require 'aesthetic/breakpoint'
 require 'aesthetic/example_body_recorder'
+require 'aesthetic/notifications'
 require 'capybara'
 require 'capybara/poltergeist'
 
@@ -35,6 +36,7 @@ module Aesthetic
     end
 
     def run
+      Notifications.emit('example')
       instance_eval &body
     end
 
