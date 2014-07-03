@@ -3,6 +3,7 @@ require 'aesthetic/diff'
 require 'aesthetic/progress_formatter'
 require 'aesthetic/notifications'
 require 'aesthetic/runner'
+require 'aesthetic/version'
 require 'optparse'
 
 module Aesthetic
@@ -62,6 +63,11 @@ module Aesthetic
 
           opts.on_tail '-h', '--help', 'Show this helpful message.' do
             puts opts
+            exit
+          end
+
+          opts.on_tail '-v', '--version', 'What version of Aesthetic is this?' do
+            puts VERSION
             exit
           end
         }.parse(argv)
