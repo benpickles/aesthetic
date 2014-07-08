@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/benpickles/aesthetic.svg?branch=master)](https://travis-ci.org/benpickles/aesthetic)
 
-Aesthetic is a tool to help you regression-test your site's aesthetic and ensure that tiny CSS changes don't have unintentional side effects in other areas of your site. Using Aesthetic will give you the confidence to freely refactor your CSS from the ground up instead of building up layers of hacks that you'll find time to fix one day.
+Aesthetic is a tool to help you regression-test your site's aesthetic and ensure that tiny CSS changes don't have unintentional side effects in other areas of your site. Aesthetic helps you identify visual changes throughout your site to give you the confidence to freely refactor your CSS from the ground up instead of building up layers of hacks that you'll find time to fix one day.
 
 ## Usage
 
