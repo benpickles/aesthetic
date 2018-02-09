@@ -1,5 +1,0 @@
-#!/usr/bin/env ruby
-
-require 'aesthetic/cli'
-
-Aesthetic::CLI.new($stdout, $stderr, ARGV.dup).start

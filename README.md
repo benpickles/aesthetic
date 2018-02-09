@@ -4,24 +4,43 @@
 
 Aesthetic is a tool to help you regression-test your site's aesthetic and ensure that tiny CSS changes don't have unintentional side effects in other areas of your site. Aesthetic helps you identify visual changes throughout your site to give you the confidence to freely refactor your CSS from the ground up instead of building up layers of hacks that you'll find time to fix one day.
 
-## Usage
+## Usage with RSpec / Rails
+
+In `spec/rails_helper`:
 
 ```ruby
-aesthetic do
-  # A screenshot is taken for each breakpoint.
-  breakpoint :tablet, 768
-  breakpoint :desktop, 1024
+require 'aesthetic/rspec'
 
-  # The `screenshot` method visits a URL and saves a screenshot.
-  screenshot :homepage, 'http://example.com'
+RSpec.configure do |config|
+  config.include Aesthetic::RSpec, type: :system
+end
+```
 
-  # You can utilise the full Capybara DSL in example blocks.
-  example 'My Account' do
-    visit 'http://example.com'
-    click_link 'My Account'
+In Capybara-driven specs:
 
-    # Use the `screenshot` method to save a screenshot.
-    screenshot :my_account
+```ruby
+require 'rails_helper'
+
+describe 'A feature' do
+  describe 'Update account settings' do
+    it 'works' do
+      visit '/'
+
+      click_link 'My Account'
+
+      # Screenshots are numbered and stored in a directory structure that
+      # matches the spec's nesting. In this case the file would be:
+      #   screenshots/a_feature/update_account_settings-001.png
+      screenshot
+
+      fill_in 'Name', with: 'Bob'
+      click_button 'Save'
+
+      # Additional screenshots are added to the same directory with an
+      # incremented file name.
+      #   screenshots/a_feature/update_account_settings-002.png
+      screenshot
+    end
   end
 end
 ```
