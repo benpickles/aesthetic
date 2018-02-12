@@ -1,12 +1,7 @@
-require 'aesthetic'
+require 'aesthetic/rspec_helpers'
+require 'rspec/core'
 
-module Aesthetic
-  module RSpec
-    PREFIX = /^r_spec\/example_groups\//
-
-    def screenshot
-      directory = self.class.to_s.underscore.sub(PREFIX, '')
-      Aesthetic.screenshot(page, directory)
-    end
-  end
+RSpec.configure do |config|
+  config.include Aesthetic::RSpecHelpers, type: :feature
+  config.include Aesthetic::RSpecHelpers, type: :system
 end

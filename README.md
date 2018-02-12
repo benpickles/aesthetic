@@ -6,17 +6,7 @@ Aesthetic is a tool to help you regression-test your site's aesthetic and ensure
 
 ## Usage with RSpec / Rails
 
-In `spec/rails_helper`:
-
-```ruby
-require 'aesthetic/rspec'
-
-RSpec.configure do |config|
-  config.include Aesthetic::RSpec, type: :system
-end
-```
-
-In Capybara-driven specs:
+Add `require 'aesthetic/rspec'` in `spec/rails_helper` then in Capybara-driven (feature/system) specs use the `screenshot` helper:
 
 ```ruby
 require 'rails_helper'
