@@ -2,14 +2,17 @@ require 'pathname'
 
 module Aesthetic
   class Config
-    DIRECTORY = 'screenshots'
-    ROOT = Dir.pwd
+    DEFAULTS = {
+      directory: 'screenshots',
+      root: Dir.pwd,
+    }
 
     attr_accessor :directory, :root
 
-    def initialize
-      @directory = DIRECTORY
-      @root = ROOT
+    def initialize(opts = {})
+      DEFAULTS.merge(opts).each do |key, value|
+        self.public_send("#{key}=", value)
+      end
     end
 
     def path
