@@ -11,8 +11,11 @@ module Aesthetic
     yield config
   end
 
-  def self.screenshot(session, directory)
-    @screenshots ||= Screenshots.new(config.path)
-    @screenshots.save(session, directory)
+  def self.screenshot(session, path)
+    screenshots.save(session, path)
+  end
+
+  def self.screenshots
+    @screenshots ||= Screenshots.new(config)
   end
 end
