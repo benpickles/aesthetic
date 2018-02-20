@@ -1,16 +1,11 @@
 require 'aesthetic'
-require 'active_support/inflector/methods'
+require 'aesthetic/rspec_screenshot_info'
 
 module Aesthetic
   module RSpecHelpers
-    PREFIX = /^r_spec\/example_groups\//
-
     def screenshot
-      directory = ActiveSupport::Inflector.underscore(
-        self.class.to_s
-      ).sub(PREFIX, '')
-
-      Aesthetic.screenshot(page, directory)
+      info = RSpecScreenshotInfo.new(RSpec.current_example.metadata)
+      Aesthetic.screenshot(page, info.path)
     end
   end
 end

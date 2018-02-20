@@ -12,7 +12,7 @@ Add `require 'aesthetic/rspec'` in `spec/rails_helper` then in Capybara-driven (
 require 'rails_helper'
 
 describe 'A feature' do
-  describe 'Update account settings' do
+  context 'Update account settings' do
     it 'works' do
       visit '/'
 
@@ -20,7 +20,7 @@ describe 'A feature' do
 
       # Screenshots are numbered and stored in a directory structure that
       # matches the spec's nesting. In this case the file would be:
-      #   screenshots/a_feature/update_account_settings-001.png
+      #   screenshots/a_feature/update_account_settings/works-001.png
       screenshot
 
       fill_in 'Name', with: 'Bob'
@@ -28,7 +28,7 @@ describe 'A feature' do
 
       # Additional screenshots are added to the same directory with an
       # incremented file name.
-      #   screenshots/a_feature/update_account_settings-002.png
+      #   screenshots/a_feature/update_account_settings/works-002.png
       screenshot
     end
   end
