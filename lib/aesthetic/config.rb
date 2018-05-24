@@ -3,11 +3,12 @@ require 'pathname'
 module Aesthetic
   class Config
     DEFAULTS = {
+      active: true,
       directory: 'screenshots',
       root: Dir.pwd,
     }
 
-    attr_accessor :directory, :root
+    attr_accessor :active, :directory, :root
 
     def initialize(opts = {})
       DEFAULTS.merge(opts).each do |key, value|

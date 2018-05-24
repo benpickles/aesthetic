@@ -1,9 +1,9 @@
 describe Aesthetic::Screenshots do
   describe '#save' do
-    let(:config) { Aesthetic::Config.new(root: 'tmp') }
     let(:screenshots) { Aesthetic::Screenshots.new(config) }
 
     context 'file naming' do
+      let(:config) { Aesthetic::Config.new(root: 'tmp') }
       let(:session) { double }
 
       context 'when called multiple times (with out of order paths)' do
@@ -20,6 +20,16 @@ describe Aesthetic::Screenshots do
           screenshots.save(session, 'bar') # <- Out of order.
           screenshots.save(session, 'foo')
         end
+      end
+    end
+
+    context 'when turned off' do
+      let(:config) { Aesthetic::Config.new(active: false, root: 'tmp') }
+      let(:session) { double }
+
+      it do
+        expect(session).not_to receive(:save_screenshot)
+        screenshots.save(session, 'foo')
       end
     end
   end

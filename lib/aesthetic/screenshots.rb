@@ -8,6 +8,8 @@ module Aesthetic
     end
 
     def save(session, directory)
+      return unless config.active
+
       count = counter[directory] += 1
       number = sprintf("%03d", count)
       path = config.path.join("#{directory}-#{number}.png")
