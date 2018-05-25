@@ -1,3 +1,2 @@
-def fixture(name)
-  Pathname.new('spec/fixtures').join(name)
-end
+require 'aesthetic'
+require 'rspec/its'
