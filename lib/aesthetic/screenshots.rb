@@ -4,7 +4,7 @@ module Aesthetic
 
     def initialize(config)
       @config = config
-      @counter = Hash.new { |hash, key| hash[key] = 0 }
+      @counter = Hash.new(0)
     end
 
     def save(session, directory)
